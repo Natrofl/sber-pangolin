@@ -1,9 +1,9 @@
 ---
 - hosts: all
   become: true
-  vars:
   tasks:
-    - ansible.builtin.assert:
+    - name: Assert that OS-family supported
+      ansible.builtin.assert:
         that: "ansible_os_family == 'Debian'"
         fail_msg: "OS family incorrect {{ ansible_os_family }} != Debian"
 
@@ -23,3 +23,20 @@
         user: user
         nopassword: true
         commands: ALL
+
+- hosts: localhost
+  gather_facts: False
+  tasks:
+    - name: Compress string via jinja2 template
+      ansible.builtin.template:
+        src: ./templates/task3.j2
+        dest: output.txt
+        mode: '0644'
+
+    - name: Read contents of a file and remove spaces
+      ansible.builtin.set_fact:
+        content: "{{ lookup('file', 'output.txt') | replace(' ', '') }}"
+    
+    - name: Display the content without sp
+      ansible.builtin.debug:
+        msg: "{{ content }}"

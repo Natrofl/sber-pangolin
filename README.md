@@ -82,3 +82,26 @@ vagrant up
 ```
 
 That's it!
+
+# Task 3
+
+Before we start, please ensure you have python3-venv and Vagrant installed on your Linux OS.
+
+## Create virtualenv
+1. Run these commands to create virturalenv
+```bash
+python3 -m venv venv
+```
+
+## Activate venv and install necessary packages
+1. Run these commands
+```bash
+source ./venv/bin/activate
+pip install -r requirements.txt
+```
+
+## Run j2-ansible compressor
+1. Run these commands
+```bash
+ansible-playbook playbook.yml
+```

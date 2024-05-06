@@ -1,0 +1,19 @@
+{% set ns = namespace(last_char="", output_string="", count=0) %}
+{% for char in "AAAAABBDCAAADDDDBC" %}
+  {% if char == ns.last_char %}
+    {% set ns.count = ns.count + 1 %}
+  {% else %}
+    {% if ns.count > 1 %}
+      {% set ns.output_string = ns.output_string + ns.last_char + ns.count|string %}
+    {% elif ns.count == 1 %}
+      {% set ns.output_string = ns.output_string + ns.last_char %}
+    {% endif %}
+    {% set ns.count = 1 %}
+  {% endif %}
+  {% set ns.last_char = char %}
+{% endfor %}
+{% if ns.count > 1 %}
+  {{ ns.output_string + ns.last_char + ns.count|string }}
+{% else %}
+  {{ ns.output_string + ns.last_char }}
+{% endif %}

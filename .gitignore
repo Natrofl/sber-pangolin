@@ -2,3 +2,4 @@
 venv
 *vagrant/
 *collections/
+output.txt
