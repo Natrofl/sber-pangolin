@@ -1,0 +1,25 @@
+---
+- hosts: all
+  become: true
+  vars:
+  tasks:
+    - ansible.builtin.assert:
+        that: "ansible_os_family == 'Debian'"
+        fail_msg: "OS family incorrect {{ ansible_os_family }} != Debian"
+
+    - name: Adding administrative user
+      ansible.builtin.user:
+        name: user
+        password: "{{ 'qweASD!@#' | string | password_hash('sha512', 'secretsaltpangol') }}"
+        groups: sudo
+        shell: /bin/bash
+        create_home: true
+        append: true
+
+    - name: Allow the user to sudo
+      community.general.sudoers:
+        name: user
+        state: present
+        user: user
+        nopassword: true
+        commands: ALL
